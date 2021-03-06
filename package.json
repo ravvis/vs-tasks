@@ -10,14 +10,40 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:tasks.helloWorld"
+		"onView:vstasks-sidebar",
+		"onCommand:tasks.helloWorld",
+		"onCommand:tasks.refresh"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "vstasks-sidebar-view",
+					"title": "VStasks",
+					"icon": "media/tasks.svg"
+				}
+			]
+		},
+		"views": {
+			"vstasks-sidebar-view": [
+				{
+					"type": "webview",
+					"id": "vstasks-sidebar",
+					"name": "VStasks",
+					"icon": "media/tasks.svg",
+					"contextualTitle": "VStasks"
+				}
+			]
+		},
 		"commands": [
 			{
 				"command": "tasks.helloWorld",
 				"title": "Hello World"
+			},
+			{
+				"command": "tasks.refresh",
+				"title": "VS Tasks: Refresh"
 			}
 		]
 	},
@@ -37,6 +63,7 @@
 		"@babel/core": "^7.13.8",
 		"@babel/preset-env": "^7.13.9",
 		"@rollup/plugin-babel": "^5.3.0",
+		"@rollup/plugin-buble": "^0.21.3",
 		"@rollup/plugin-commonjs": "^17.1.0",
 		"@rollup/plugin-node-resolve": "^11.2.0",
 		"@rollup/plugin-replace": "^2.4.1",
@@ -57,6 +84,7 @@
 		"mocha": "^8.2.1",
 		"rollup": "^2.40.0",
 		"rollup-plugin-babel": "^4.4.0",
+		"rollup-plugin-css-only": "^3.1.0",
 		"rollup-plugin-livereload": "^2.0.0",
 		"rollup-plugin-serve": "^1.1.0",
 		"rollup-plugin-vue": "^5.0.0",
@@ -70,6 +98,7 @@
 		"webpack-cli": "^4.4.0"
 	},
 	"dependencies": {
+		"rollup-plugin-import-css": "^2.0.0",
 		"vue": "^2.6.12"
 	}
 }

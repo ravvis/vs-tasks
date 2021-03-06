@@ -1,5 +1,8 @@
 <template>
-  <div class="example">{{ messageToUpper }}</div>
+  <div class="example">
+    {{ messageToUpper }}
+    Hellu There :)
+  </div>
 </template>
 
 <script>

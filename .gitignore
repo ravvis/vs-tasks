@@ -4,3 +4,6 @@ node_modules
 .vscode-test/
 *.vsix
 node_modules
+extension/.env
+api/.env
+api/src/serviceAccountKey.json

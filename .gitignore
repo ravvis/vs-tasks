@@ -3,7 +3,4 @@ dist
 node_modules
 .vscode-test/
 *.vsix
-.env
 node_modules
-extension/.env
-api/.env

@@ -34,13 +34,14 @@ import cors from "cors";
       },
       async (_: any, __: any, profile: any, cb: any) => {
         console.log("poiuy")
+        console.log({ profile });
         let user = await findUser({ githubId: profile.id });
         console.log({ user })
         if (user) {
-          
+          console.log("inside if");
         }
         else {
-          console.log({ profile });
+          console.log("inside else");
           const payload = {
             name: profile.displayName,
             githubId: profile.id
@@ -48,10 +49,9 @@ import cors from "cors";
           console.log({ payload });
           user = await createUser(payload)
         }
-        console.log({ pppppuser: user });
         cb(null, {
           accessToken: jwt.sign(
-            { userId: user.id },
+            { githubId: user.githubId },
             process.env.ACCESS_TOKEN,
             { expiresIn: "1y" }
           )
@@ -85,24 +85,24 @@ import cors from "cors";
       return;
     }
 
-    let userId = "";
+    let githubId = "";
 
     try {
       const payload: any = jwt.verify(token, process.env.ACCESS_TOKEN);
       console.log({ payload })
-      userId = payload.userId;
+      githubId = payload.githubId;
     } catch (err) {
       res.send({ user: null });
       return;
     }
-    console.log({ userId });
+    console.log({ githubId });
 
-    if (!userId) {
+    if (!githubId) {
       res.send({ user: null });
       return;
     }
 
-    const user = await findUser({ userId });
+    const user = await findUser({ githubId });
     console.log({ user });
     res.send({ user });
   });
@@ -123,24 +123,24 @@ import cors from "cors";
       return;
     }
 
-    let userId = "";
+    let githubId = "";
 
     try {
       const payload: any = jwt.verify(token, process.env.ACCESS_TOKEN);
       console.log({ payload })
-      userId = payload.userId;
+      githubId = payload.githubId;
     } catch (err) {
       res.send({ user: null });
       return;
     }
-    console.log({ userId });
+    console.log({ githubId });
 
-    if (!userId) {
+    if (!githubId) {
       res.send({ user: null });
       return;
     }
 
-    const tasks = await getAllTasks(userId);
+    const tasks = await getAllTasks(githubId);
     console.log({ tasks });
     res.send({ data: tasks });
   });

@@ -12,17 +12,12 @@ const TasksCollection = db.collection("tasks");
 
 const findUser = async ({
   githubId,
-  userId,
 }) => {
   // return null;
-  if (userId) {
-    let user = await (await UsersCollection.doc(userId).get());
-    return user.data();
-  }
-  else if (githubId) {
+  if (githubId) {
     let querySnapshot: any;
     try {
-    querySnapshot = UsersCollection.where("githubId", "==", githubId).get() 
+      querySnapshot = await UsersCollection.where("githubId", "==", githubId).get() 
     } catch (err) {
       return null;
     }
@@ -74,12 +69,9 @@ const createUser = async ({ name, githubId }) => {
 //   })
 // }
 
-const getAllTasks = async (userId: string) => {
-  let tasks = await TasksCollection
-    .where('user', '==', userId)
-    .orderBy('createdAt', 'desc')
-    .get()
-  return tasks.docs.map((doc) => doc.data()) || [];
+const getAllTasks = async (githubId: string) => {
+  let tasks = await TasksCollection.where("user", "==", githubId).get()
+  return tasks.docs.map((doc) => doc.data());
 }
 
 export {

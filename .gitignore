@@ -1,9 +1,11 @@
-out
-dist
-node_modules
-.vscode-test/
-*.vsix
-node_modules
+# extension
 extension/.env
+extension/node_modules
+extension/out
+extension/dist
+
+# server
 api/.env
+api/node_modules
 api/src/serviceAccountKey.json
+api/dist

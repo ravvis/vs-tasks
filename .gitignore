@@ -5,7 +5,7 @@ extension/out
 extension/dist
 
 # server
-api/.env
-api/node_modules
-api/src/serviceAccountKey.json
-api/dist
+server/.env
+server/node_modules
+server/src/serviceAccountKey.json
+server/dist

@@ -40,7 +40,7 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchUserInfo({ commit, state , dispatch}) {
-      const response = await fetch(`${apiBaseUrl}/me`, {
+      const response = await fetch(`${apiBaseUrl}/user/me`, {
         headers: {
           authorization: `Bearer ${state.accessToken}`
         }
@@ -51,7 +51,7 @@ export default new Vuex.Store({
       commit("SET_USER", data.user);
     },
     async fetchAllTasks({ commit, state }) {
-      const response = await fetch(`${apiBaseUrl}/getAllTasks`, {
+      const response = await fetch(`${apiBaseUrl}/tasks/all`, {
         headers: {
           authorization: `Bearer ${state.accessToken}`
         }

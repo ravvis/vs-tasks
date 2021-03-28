@@ -1,8 +1,8 @@
 import express from "express";
-import { getAllTasks } from "../models/tasks";
+import { getAllTasks, createTask } from "../models/tasks";
 const router = express.Router();
 
-router.get("/tasks/all", async (req, res) => {
+router.get("/all", async (req, res) => {
   const authHeader = req.headers.authorization;
 
   console.log({ authHeader });
@@ -38,6 +38,10 @@ router.get("/tasks/all", async (req, res) => {
   const tasks = await getAllTasks(githubId);
   console.log({ tasks });
   res.send({ data: tasks });
+});
+
+router.get("/create", async (req, res) => {
+
 });
 
 export default router;

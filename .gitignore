@@ -1,11 +1,17 @@
+# root
+node_modules
+yarn.lock
+
 # extension
 extension/.env
 extension/node_modules
 extension/out
 extension/dist
+extension/yarn.lock
 
 # server
 server/.env
 server/node_modules
 server/src/config/serviceAccountKey.json
 server/dist
+server/yarn.lock

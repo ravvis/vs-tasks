@@ -9,32 +9,6 @@
     <div v-else>
       <button @click="sign_in">Sign In with github</button>
     </div>
-    <!-- <h1>Hello Ravindraaaaaaaa :D</h1>
-    <h2>Enter your tasks here...</h2>
-    <div>
-      <input v-model="task"/>
-    </div>
-    <button @click="addTask" :disabled="!task">Add Task</button>
-
-    <h3>Pending tasks</h3>
-    <ul>
-      <li 
-        v-for="(t, index) in tasks" :key="`pending_${index}`"
-        style="display:flex;justify-content:center;align-items:center;"
-      >
-        {{ t }}
-        <button @click="markAsDone(t)">Done</button>
-      </li>
-    </ul>
-
-    <h3>Completed tasks</h3>
-    <ul>
-      <li v-for="(t, index) in completed" :key="`completed_${index}`">
-        {{ t }}
-      </li>
-    </ul>
-    <button @click="_GITHUB_SIGN_IN()">Sign In with github</button>
-  </div> -->
   </div>
   <div v-else>
     Loading...

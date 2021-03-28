@@ -1,5 +1,5 @@
 import Vue from '../vue';
-import Sidebar from "./components/Sidebar.vue";
+import Sidebar from "./App.vue";
 import store from "./store/index.js";
 
 // INJECTED VARIABLES

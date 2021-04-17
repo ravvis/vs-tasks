@@ -1,5 +1,4 @@
 import authorize from "../authorize";
-
 import User from "../models/user";
 
 export const createUser: any = function ({ name, githubId }: any) {

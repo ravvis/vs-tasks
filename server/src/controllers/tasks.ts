@@ -1,47 +1,89 @@
-import express from "express";
-import { getAllTasks, createTask } from "../models/tasks";
-const router = express.Router();
+import authorize from "../authorize";
+import Task from "../models/tasks";
 
-router.get("/all", async (req, res) => {
-  const authHeader = req.headers.authorization;
+export const createTask: any = function ({ title, githubId }: any) {
+  return new Promise((resolve, reject) => {
+    let task = new Task();
 
-  console.log({ authHeader });
-  if (!authHeader) {
-    res.status(404).send({ data: "Header not found" });
+    task.title = title;
+    task.user_id = githubId;
+
+    task.save((err: any) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(task);
+      }
+    });
+  });
+};
+
+const store = function (req: any, res: any) {
+  const Authorize = authorize(req);
+  console.log({ Authorize });
+  if (Authorize.is) {
+
+    createTask({ title: req.body.title, githubId: Authorize.githubId })
+      .then((task: any) => {
+        res.json({
+          message: "New Task Added!",
+          data: task,
+        });
+      })
+      .catch((err: any) => {
+        res.json(err);
+      });
+  } else {
+    res.send({ task: null });
     return;
   }
+};
 
-  const token = authHeader.split(" ")[1];
-  console.log({ token })
-  if (!token) {
-    res.status(404).send({ data: "User not found" });
+export const getTasks: any = async function ({ githubId }: any) {
+  let tasks = await Task.find({ user_id: githubId });
+  return tasks;
+};
+
+const index = async function (req: any, res: any) {
+  const Authorize = authorize(req);
+  if (Authorize.is) {
+    // const user = await findUser({ githubId: Authorize.githubId });
+
+    const tasks = await getTasks({ githubId: Authorize.githubId });
+
+    res.send({ tasks });
+    return;
+  } else {
+    res.send({ tasks: [] });
     return;
   }
+};
 
-  let githubId = "";
+export const getTask: any = async function ({ id }: any) {
+  let task = await Task.findById(id);
+  return task;
+};
 
-  try {
-    const payload: any = jwt.verify(token, process.env.ACCESS_TOKEN);
-    console.log({ payload })
-    githubId = payload.githubId;
-  } catch (err) {
+const view = async function (req: any, res: any) {
+  const Authorize = authorize(req);
+  if (Authorize.is) {
+    // const user = await findUser({ githubId: Authorize.githubId });
+
+    const task = await getTask({ id: req.params.task_id });
+    if (task.user_id === Authorize.githubId) {
+      res.send({ task });
+    } else {
+      res.send({ task: null });
+    }
+    return;
+  } else {
     res.send({ user: null });
     return;
   }
-  console.log({ githubId });
+};
 
-  if (!githubId) {
-    res.send({ user: null });
-    return;
-  }
-
-  const tasks = await getAllTasks(githubId);
-  console.log({ tasks });
-  res.send({ data: tasks });
-});
-
-router.get("/create", async (req, res) => {
-
-});
-
-export default router;
+export default {
+  store,
+  index,
+  view,
+};

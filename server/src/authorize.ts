@@ -6,6 +6,8 @@ function authorize(req: any) {
     githubId: "",
   };
 
+  console.log({ req: req.headers });
+
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {

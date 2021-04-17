@@ -3,7 +3,6 @@ require("dotenv-safe").config();
 
 import passport from "passport";
 import cors from "cors";
-const router = express.Router();
 
 //import body parser
 let bodyParser = require("body-parser");
@@ -13,11 +12,10 @@ let mongoose = require("mongoose");
 
 // CONTROLLERS
 import authRouter from "./controllers/auth";
-import userController from "./controllers/user";
-import tasksRouter from "./controllers/tasks";
 
 // ROUTES
 import userRouter from "./routes/user_routes";
+import tasksRouter from "./routes/task_routes";
 
 // SERVICES
 import githubStrategy from "./services/githubStrategy";
@@ -65,12 +63,5 @@ mongo.then(
 
   app.use("/auth", authRouter);
   app.use("/tasks", tasksRouter);
-
-  app.use("/hello", (req, res) => {
-    res.send("hemlooooooo");
-  });
-
   app.use("/user", userRouter);
-  // router.route("/user").get(userController.view);
-  // .post(userController.store);
 })();

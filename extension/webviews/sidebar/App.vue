@@ -2,36 +2,32 @@
   <div v-if="loaded">
     <h2 v-if="user">
       Hello {{ getUserFirstName }}
-      <button @click="logout">
-        Logout
-      </button>
+      <button @click="logout">Logout</button>
     </h2>
     <div v-else>
       <button @click="sign_in">Sign In with github</button>
     </div>
   </div>
-  <div v-else>
-    Loading...
-  </div>
+  <div v-else>Loading...</div>
 </template>
 <script>
 import Vue from "vue";
-import {mapGetters, mapState} from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default Vue.extend({
-  data(){
+  data() {
     return {
       task: "",
       tasks: [],
       completed: [],
       loaded: false,
-    }
+    };
   },
-  async mounted(){
+  async mounted() {
 
     window.addEventListener("message", async (event) => {
       const message = event.data;
-      switch(message.type) {
-        case "token":{
+      switch (message.type) {
+        case "token": {
           const token = message.value;
           this.$store.commit("SET_ACCESS_TOKEN", token);
           this.loaded = false;
@@ -42,49 +38,47 @@ export default Vue.extend({
           break;
         }
       }
-    })
+    });
 
-      _vscode.postMessage({ type: "git-token" });
+    _vscode.postMessage({ type: "git-token" });
   },
   computed: {
-    ...mapState([ "user" ]),
-    ...mapGetters([
-      "getUserFirstName"
-    ])
+    ...mapState(["user"]),
+    ...mapGetters(["getUserFirstName"]),
   },
   methods: {
-    addTask(){
+    addTask() {
       this.tasks.push(this.task);
-      console.log("qwe:", { hello: _vscode })
+      console.log("qwe:", { hello: _vscode });
       _vscode.postMessage({
-        type: 'onInfo',
-        value: `${this.task} added to the tasks :)`
+        type: "onInfo",
+        value: `${this.task} added to the tasks :)`,
       });
       this.task = "";
     },
-    markAsDone(task){
+    markAsDone(task) {
       let idx = this.tasks.indexOf(task);
       this.tasks.splice(idx, 1);
-      console.log({ task })
+      console.log({ task });
       this.completed.push(task);
 
       this.$vscode.postMessage({
-        type: 'onInfo',
-        value: `${task} marked as completed :)`
+        type: "onInfo",
+        value: `${task} marked as completed :)`,
       });
     },
-    sign_in(){
+    sign_in() {
       _vscode.postMessage({ type: "authenticate" });
     },
-    logout(){
+    logout() {
       _vscode.postMessage({ type: "logout" });
       this.$store.dispatch("logout");
-    }
-  }
-})
+    },
+  },
+});
 </script>
 <style scoped>
-h1{
+h1 {
   color: pink;
 }
 </style>

@@ -1,4 +1,5 @@
 # root
+.idea
 
 # extension
 extension/.env
@@ -6,6 +7,7 @@ extension/node_modules
 extension/out
 extension/dist
 extension/yarn.lock
+extension/.idea
 
 # server
 server/.env
@@ -13,3 +15,4 @@ server/node_modules
 server/src/config/serviceAccountKey.json
 server/dist
 server/yarn.lock
+server/.idea

@@ -1,6 +1,4 @@
 # root
-node_modules
-yarn.lock
 
 # extension
 extension/.env

@@ -1,44 +1,58 @@
-import express from "express";
-const router = express.Router();
-import jwt from "jsonwebtoken";
-import { findUser } from "../models/user";
+import authorize from "../authorize";
 
-router.get("/me", async (req, res) => {
-  const authHeader = req.headers.authorization;
+import User from "../models/user";
 
-  console.log("/////////////////me")
-  console.log({ authHeader });
-  if (!authHeader) {
+export const createUser: any = function ({ name, githubId }: any) {
+  return new Promise((resolve, reject) => {
+    let user = new User();
+
+    user.name = name;
+    user.githubId = githubId;
+
+    user.save((err: any) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(user);
+      }
+    });
+  });
+};
+
+const store = function (req: any, res: any) {
+  createUser({ name: req.body.name, githubId: req.body.githubId })
+    .then((user: any) => {
+      res.json({
+        message: "New User Added!",
+        data: user,
+      });
+    })
+    .catch((err: any) => {
+      res.json(err);
+    });
+};
+
+export const findUser: any = async function ({ githubId }: any) {
+  let user = await User.findOne({ githubId });
+  return user;
+};
+
+const view = async function (req: any, res: any) {
+  const Authorize = authorize(req);
+  if (Authorize.is) {
+    // const user = await findUser({ githubId: Authorize.githubId });
+
+    const user = await findUser({ githubId: Authorize.githubId });
+
+    res.send({ user });
+    return;
+  } else {
     res.send({ user: null });
     return;
   }
+};
 
-  const token = authHeader.split(" ")[1];
-  console.log({ token })
-  if (!token) {
-    res.send({ user: null });
-    return;
-  }
-
-  let githubId = "";
-
-  try {
-    const payload: any = jwt.verify(token, process.env.ACCESS_TOKEN);
-    console.log({ payload })
-    githubId = payload.githubId;
-  } catch (err) {
-    res.send({ user: null });
-    return;
-  }
-  console.log({ githubId });
-
-  if (!githubId) {
-    res.send({ user: null });
-    return;
-  }
-
-  const user = await findUser({ githubId });
-  console.log({ user });
-  res.send({ user });
-});
-export default router;
+export default {
+  store,
+  view,
+};

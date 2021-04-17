@@ -40,7 +40,7 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchUserInfo({ commit, state , dispatch}) {
-      const response = await fetch(`${apiBaseUrl}/user/me`, {
+      const response = await fetch(`${apiBaseUrl}/user`, {
         headers: {
           authorization: `Bearer ${state.accessToken}`
         }

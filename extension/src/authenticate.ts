@@ -4,7 +4,6 @@ import * as polka from "polka";
 import { TokenManager } from "./TokenManager";
 
 export const authenticate = (cb: () => void) => {
-
   const app = polka();
 
   app.get("/auth/:token", async (req, res) => {
@@ -24,12 +23,11 @@ export const authenticate = (cb: () => void) => {
   app.listen(54321, (err: Error) => {
     if (err) {
       vscode.window.showErrorMessage(err.message);
-    }
-    else {
+    } else {
       vscode.commands.executeCommand(
-        'vscode.open',
+        "vscode.open",
         vscode.Uri.parse(`${apiBaseUrl}/auth/github`)
-      ); 
+      );
     }
   });
 };
